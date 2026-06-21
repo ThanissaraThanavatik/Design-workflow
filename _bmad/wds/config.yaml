@@ -1,0 +1,40 @@
+# WDS runtime config — read by every WDS agent on activation (Step 5).
+# This is the project-level config the BMAD installer would normally generate.
+# Tuned for the ROONA project + the existing Roona design-system engine.
+
+# --- Core (inherited from BMAD core in a full install; set explicitly here) ---
+user_name: "Thanissara"
+communication_language: "th"        # Saga/Freya/Mimir talk to you in Thai
+document_output_language: "th"      # artifacts written Thai-first, English for AMLO/OFAC/PEP terms
+project_name: "ROONA (รู้นะ)"
+output_folder: "{project-root}"
+bmad_folder: "{project-root}/_bmad"
+project_knowledge: "{project-root}/docs"
+install_user_docs: true
+kb_install: false
+
+# --- WDS module config ---
+project_type: "digital_product"     # LINE LIFF app + merchant dashboard + marketing site
+design_artifacts: "{project-root}/design-artifacts"
+methodology_version: "wds-v6"       # numbered phases 1-8
+design_experience: "expert"         # be direct and efficient
+
+# IMPORTANT: Roona already HAS a full design system (tokens/ + components/ + gates).
+# So WDS does not invent tokens — it consumes the existing one.
+design_system_mode: "existing"
+product_languages: ["th", "en"]     # Thai primary, English for regulatory terms
+
+# Saga greeting branch: we already have a product brief equivalent (PRODUCT.md),
+# so start straight at the brief rather than the sales pitch.
+starting_point: "brief"
+
+# --- Roona integration bridge (custom keys, read by the integration guide) ---
+# These point WDS's downstream phases at the existing Roona engine.
+roona_integration:
+  engine_root: "{project-root}/Roona"
+  tokens_source: "{project-root}/Roona/tokens"        # DTCG JSON — single source of truth
+  gate_command: "node scripts/accuracy_report.mjs"     # run from Roona/ — Phase 5 definition of done
+  gate_cwd: "{project-root}/Roona"
+  design_system_spec: "{project-root}/Roona/CLAUDE.md" # Senior Design Architect rules + Request Router
+  marketing_site: "{project-root}/Roona/roona-website"
+  product_app: "{project-root}/Roona/liff-codebase"
